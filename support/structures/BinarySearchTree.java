@@ -7,14 +7,10 @@ import java.util.Iterator;
  * A {@link BinarySearchTree} is a container that maintains an internal state
  * consistent with a Binary Search Tree.
  * </p>
- * 
- * 
- * @author jcollard jddevaug
- * @see http://en.wikipedia.org/wiki/Binary_search_tree
- * @see http://en.wikipedia.org/wiki/Tree_traversal#In-order_.28symmetric.29
- * 
+ *
  * @param <T>
  *            the type of data stored in this {@link BinarySearchTree}
+ * @author jcollard jddevaug
  */
 public interface BinarySearchTree<T extends Comparable<? super T>> extends
 		Iterable<T> {
@@ -24,7 +20,6 @@ public interface BinarySearchTree<T extends Comparable<? super T>> extends
 	 * this method returns the modified {@link BinarySearchTree}. This method
 	 * runs in O(size) time. However, if this {@link BinarySearchTree} is
 	 * balanced, this method runs in O(log(size)) time.
-	 * 
 	 * A successful call to this method will always result in size increasing by
 	 * one.
 	 * 
@@ -35,12 +30,12 @@ public interface BinarySearchTree<T extends Comparable<? super T>> extends
 	 * @throws NullPointerException
 	 *             if {@code toAdd} is {@code null}
 	 */
-	public BinarySearchTree<T> add(T toAdd);
+	BinarySearchTree<T> add(T toAdd);
 
-/**
+	/**
 	 * Searches this {@link BinarySearchTree} for {@code toFind} and returns
 	 * {@code true} if there is at least one instance of {@code toFind} in this
-	 * {@link BinarySearchTree} and {@code false} otherwise.  This method
+	 * {@link BinarySearchTree} and {@code false} otherwise. This method
 	 * runs in O(size) time. However, if this {@link BinarySearchTree} is balanced,
 	 * this method runs in O(log(size)) time.
 	 * 
@@ -50,7 +45,7 @@ public interface BinarySearchTree<T extends Comparable<? super T>> extends
 	 *         {@link BinarySearchTree} and {@code false otherwise.
 	 * @throws NullPointerException if {@code toFind} is {@code null}
 	 */
-	public boolean contains(T toFind);
+	boolean contains(T toFind);
 
 	/**
 	 * Removes {@code toRemove} from this {@link BinarySearchTree} if at least
@@ -65,41 +60,37 @@ public interface BinarySearchTree<T extends Comparable<? super T>> extends
 	 * @return {@code true} if this {@link BinarySearchTree} was modified and
 	 *         {@code false} otherwise
 	 */
-	public boolean remove(T toRemove);
+	boolean remove(T toRemove);
 
 	/**
 	 * Returns the number of elements in this {@link BinarySearchTree}
-	 * 
 	 * @return the number of elements in this {@link BinarySearchTree}
 	 */
-	public int size();
+	int size();
 
 	/**
 	 * Returns {@code true} if this {@link BinarySearchTree} contains no
 	 * elements and {@code false} otherwise.
-	 * 
 	 * @return {@code true} if this {@link BinarySearchTree} contains no
 	 *         elements and {@code false} otherwise.
 	 */
-	public boolean isEmpty();
+	boolean isEmpty();
 
 	/**
 	 * Returns the minimum value in this {@link BinarySearchTree}.
-	 * 
 	 * @return the minimum value in this {@link BinarySearchTree}.
 	 * @throws IllegalStateException
 	 *             if this {@link BinarySearchTree} is empty.
 	 */
-	public T getMinimum();
+	T getMinimum();
 
 	/**
 	 * Returns the maximum value in this {@link BinarySearchTree}.
-	 * 
 	 * @return the maximum value in this {@link BinarySearchTree}.
 	 * @throws IllegalStateException
 	 *             if this {@link BinarySearchTree} is empty.
 	 */
-	public T getMaximum();
+	T getMaximum();
 
 	/**
 	 * Returns a {@link BinaryTreeNode} that is consistent with the internal
@@ -109,11 +100,10 @@ public interface BinarySearchTree<T extends Comparable<? super T>> extends
 	 * 
 	 * @return a {@link BinaryTreeNode} that is consistent with the shape of
 	 *         this {@link BinarySearchTree}.
-	 * 
 	 * @throws IllegalStateException
 	 *             if this {@link BinarySearchTree} is empty.
 	 */
-	public BinaryTreeNode<T> toBinaryTreeNode();
+	BinaryTreeNode<T> toBinaryTreeNode();
 
 	/**
 	 * <p>
@@ -134,6 +124,5 @@ public interface BinarySearchTree<T extends Comparable<? super T>> extends
 	 * 
 	 * @return a new {@link Iterator} that will traverse this tree in-order.
 	 */
-	public Iterator<T> iterator();
-
+	Iterator<T> iterator();
 }

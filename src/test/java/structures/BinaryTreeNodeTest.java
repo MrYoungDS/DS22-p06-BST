@@ -1,27 +1,33 @@
 package structures;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import config.Configuration;
 
 public class BinaryTreeNodeTest {
 
-	private BinaryTreeNode<Integer> root, root2, root3;
+	private BinaryTreeNode<Integer> root1, root2, root3;
 	private static final <T> BinaryTreeNode<T> node(BinaryTreeNode<T> left, T elem, BinaryTreeNode<T> right){
 		return Configuration.createBinaryTreeNode(left, elem, right);
 	}
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		root = initRoot();
+		root1 = initRoot();
 		root2 = initRoot2();
 		root3 = initRoot3();
-		assertNotNull("It looks like your configuration file isn't set for BinaryTreeNode.", root);
-		assertNotNull("It looks like your configuration fil isn't set for BinaryTreeNode.", root2);
-		assertNotNull("It looks like your configuration file isn't set for BinaryTreeNode.", root3);
+		assertNotNull(root1, "It looks like your configuration file isn't set for BinaryTreeNode.");
+		assertNotNull(root2, "It looks like your configuration file isn't set for BinaryTreeNode.");
+		assertNotNull(root3, "It looks like your configuration file isn't set for BinaryTreeNode.");
 	}
 
 	private BinaryTreeNode<Integer> initRoot(){
@@ -36,14 +42,14 @@ public class BinaryTreeNodeTest {
 	}
 	
 	private BinaryTreeNode<Integer> initRoot3(){
-		//                    5
-		//              /            \
-		//             3             19
-		//            / \           /
-		//           6   7         1
-		//                        /
-		//                       4
-		return 
+		//                  5
+		//              /       \
+		//             3         19
+		//            / \       /
+		//           6   7     1
+		//                    /
+		//                   4
+		return
 		node(
 			node(
 				node(null, 6, null), 3, node(null, 7, null)),
@@ -53,99 +59,110 @@ public class BinaryTreeNodeTest {
 					node(null, 4, null), 1, null), 19, null));
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testRoot() {
-		assertEquals("Root should have a single node with 5 stored.", new Integer(5), root.getData());
-		assertFalse("Root should have no children.", root.hasLeftChild());
-		assertFalse("Root should have no children.", root.hasRightChild());
+		assertEquals(Integer.valueOf(5), root1.getData(), "Root should have a single node with 5 stored.");
+		assertFalse(root1.hasLeftChild(), "Root should have no children.");
+		assertFalse(root1.hasRightChild(), "Root should have no children.");
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRootException1() {
-		root.getLeftChild();
+		assertThrows(IllegalStateException.class,
+				() -> root1.getLeftChild());
 	}
 
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRootException2() {
-		root.getRightChild();
+		assertThrows(IllegalStateException.class,
+				() -> root1.getRightChild());
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testRoot2() {
-		assertEquals("The root of root2 should hold 5.", new Integer(5), root2.getData());
-		assertFalse("Root 2 should have only a right child.", root2.hasLeftChild());
-		assertTrue("Root 2 should have a right child.", root2.hasRightChild());
-		assertEquals("The right child of root2 should hold 7.", new Integer(7), root2.getRightChild().getData());
-		assertFalse("The right child of root2 should have no children.", root2.getRightChild().hasRightChild());
-		assertFalse("The left child of root2 should have no children.", root2.getRightChild().hasLeftChild());
+		assertEquals(Integer.valueOf(5), root2.getData(), "The root of root2 should hold 5.");
+		assertFalse(root2.hasLeftChild(), "Root 2 should have only a right child.");
+		assertTrue(root2.hasRightChild(), "Root 2 should have a right child.");
+		assertEquals(Integer.valueOf(7), root2.getRightChild().getData(), "The right child of root2 should hold 7.");
+		assertFalse(root2.getRightChild().hasRightChild(), "The right child of root2 should have no children.");
+		assertFalse(root2.getRightChild().hasLeftChild(), "The left child of root2 should have no children.");
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot2Exception1(){
-		root2.getLeftChild();
+		assertThrows(IllegalStateException.class,
+				() -> root2.getLeftChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot2Exception2(){
-		root2.getRightChild().getLeftChild();
+		assertThrows(IllegalStateException.class,
+				() -> root2.getRightChild().getLeftChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot2Exception3(){
-		root2.getRightChild().getRightChild();
+		assertThrows(IllegalStateException.class,
+				() -> root2.getRightChild().getRightChild());
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testRoot3() {
-		//                    5
-		//              /            \
-		//             3             19
-		//            / \           /
-		//           6   7         1
-		//                        /
-		//                       4
-		assertEquals("The root of root3 should hold 5.", new Integer(5), root3.getData());
-		assertEquals("The left child of root3 should hold 3.", new Integer(3), root3.getLeftChild().getData());
-		assertEquals("The left-left child of root3 should hold 6.", new Integer(6), root3.getLeftChild().getLeftChild().getData());
-		assertEquals("The left-right child of root3 should hold 7.", new Integer(7), root3.getLeftChild().getRightChild().getData());
-		assertEquals("The right child of root3 should hold 19.", new Integer(19), root3.getRightChild().getData());
-		assertEquals("The right-left child of root3 should hold 1.", new Integer(1), root3.getRightChild().getLeftChild().getData());
-		assertEquals("The right-left-left child of root3 should hold 4.", new Integer(4), root3.getRightChild().getLeftChild().getLeftChild().getData());		
+		//                  5
+		//              /       \
+		//             3         19
+		//            / \       /
+		//           6   7     1
+		//                    /
+		//                   4
+		assertEquals(Integer.valueOf(5), root3.getData(), "The root of root3 should hold 5.");
+		assertEquals(Integer.valueOf(3), root3.getLeftChild().getData(), "The left child of root3 should hold 3.");
+		assertEquals(Integer.valueOf(6), root3.getLeftChild().getLeftChild().getData(), "The left-left child of root3 should hold 6.");
+		assertEquals(Integer.valueOf(7), root3.getLeftChild().getRightChild().getData(), "The left-right child of root3 should hold 7.");
+		assertEquals(Integer.valueOf(19), root3.getRightChild().getData(), "The right child of root3 should hold 19.");
+		assertEquals(Integer.valueOf(1), root3.getRightChild().getLeftChild().getData(), "The right-left child of root3 should hold 1.");
+		assertEquals(Integer.valueOf(4), root3.getRightChild().getLeftChild().getLeftChild().getData(), "The right-left-left child of root3 should hold 4.");
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot3Exception1(){
 		assertFalse(root3.getLeftChild().getLeftChild().hasLeftChild());
-		root3.getLeftChild().getLeftChild().getLeftChild();
+		assertThrows(IllegalStateException.class,
+				() -> root3.getLeftChild().getLeftChild().getLeftChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot3Exception2(){
 		assertFalse(root3.getLeftChild().getLeftChild().hasRightChild());
-		root3.getLeftChild().getRightChild().getRightChild();
+		assertThrows(IllegalStateException.class,
+				() -> root3.getLeftChild().getRightChild().getRightChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot3Exception3(){
 		assertFalse(root3.getRightChild().hasRightChild());
-		root3.getRightChild().getRightChild();
+		assertThrows(IllegalStateException.class,
+				() -> root3.getRightChild().getRightChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot3Exception4(){
 		assertFalse(root3.getRightChild().getLeftChild().hasRightChild());
-		root3.getRightChild().getLeftChild().getRightChild();
+		assertThrows(IllegalStateException.class,
+				() -> root3.getRightChild().getLeftChild().getRightChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot3Exception5(){
 		assertFalse(root3.getRightChild().getLeftChild().getLeftChild().hasLeftChild());
-		root3.getRightChild().getLeftChild().getLeftChild().getLeftChild();
+		assertThrows(IllegalStateException.class,
+				() -> root3.getRightChild().getLeftChild().getLeftChild().getLeftChild());
 	}
 	
-	@Test (timeout = 100, expected=IllegalStateException.class)
+	@Test
 	public void testRoot3Exception6(){
 		assertFalse(root3.getRightChild().getLeftChild().getLeftChild().hasRightChild());
-		root3.getRightChild().getLeftChild().getLeftChild().getRightChild();
+		assertThrows(IllegalStateException.class,
+				() -> root3.getRightChild().getLeftChild().getLeftChild().getRightChild());
 	}
 }

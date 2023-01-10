@@ -13,7 +13,7 @@ public class TreeViewer {
 		String dot = "digraph G { \n";
 		dot += "graph [ordering=\"out\"]; \n";
 		// iterative traversal
-		Queue<BinaryTreeNode<T>> queue = new LinkedList<BinaryTreeNode<T>>();
+		Queue<BinaryTreeNode<T>> queue = new LinkedList<>();
 		queue.add(root);
 		BinaryTreeNode<T> cursor;
 		while (!queue.isEmpty()) {
@@ -42,7 +42,6 @@ public class TreeViewer {
 						+ ";\n";
 				count++;
 			}
-
 		}
 		dot += "};";
 		return dot;
@@ -59,5 +58,4 @@ public class TreeViewer {
 				node(node(node(null, 4, null), 1, null), 19, null));
 		System.out.println(toDotFormat(tree));
 	}
-
 }

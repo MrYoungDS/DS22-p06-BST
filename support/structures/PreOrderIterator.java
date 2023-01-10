@@ -9,7 +9,7 @@ public class PreOrderIterator<T> implements Iterator<T> {
 	private final Deque<BinaryTreeNode<T>> stack; 
 	
 	public PreOrderIterator(BinaryTreeNode<T> root){
-		stack = new LinkedList<BinaryTreeNode<T>>();
+		stack = new LinkedList<>();
 		stack.push(root);
 	}
 
@@ -30,5 +30,4 @@ public class PreOrderIterator<T> implements Iterator<T> {
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
-
 }

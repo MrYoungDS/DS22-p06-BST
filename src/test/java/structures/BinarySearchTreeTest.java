@@ -1,6 +1,15 @@
 package structures;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,9 +18,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import config.Configuration;
 
 public class BinarySearchTreeTest {
@@ -19,76 +25,78 @@ public class BinarySearchTreeTest {
 	private BinarySearchTree<Integer> tree;
 	private static final int SPEED_TEST = 1 << 12;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		tree = Configuration.createBinarySearchTree();
-		assertNotNull("It looks like you did not set createBinarySearchTree in your configuration file.", tree);
+		assertNotNull(tree, "It looks like you did not set createBinarySearchTree in your configuration file.");
 	}
 
-	@Test (timeout = 100)
+	@Test
 	public void testSimpleAddSizeAndIsEmpty(){
-		assertTrue("Fresh tree should be empty.", tree.isEmpty());
-		assertEquals("Fresh tree should have size 0.", 0, tree.size());
-		assertEquals("Add should return tree for convenience.", tree, tree.add(1));
-		assertFalse("Tree should now be non-empty.", tree.isEmpty());
-		assertEquals("Size should now be 1.", 1, tree.size());
-		assertEquals("Add should return tree for convenience.", tree, tree.add(1));
-		assertFalse("Tree should now be non-empty.", tree.isEmpty());
-		assertEquals("Size should now be 2.", 2, tree.size());
-		assertEquals("Add should return tree for convenience.", tree, tree.add(1));
-		assertFalse("Tree should now be non-empty.", tree.isEmpty());
-		assertEquals("Size should now be 3.", 3, tree.size());
-		assertEquals("Add should return tree for convenience.", tree, tree.add(2));
-		assertFalse("Tree should now be non-empty.", tree.isEmpty());
-		assertEquals("Size should now be 4.", 4, tree.size());
+		assertTrue(tree.isEmpty(), "Fresh tree should be empty.");
+		assertEquals(0, tree.size(), "Fresh tree should have size 0.");
+		assertEquals(tree, tree.add(1), "Add should return tree for convenience.");
+		assertFalse(tree.isEmpty(), "Tree should now be non-empty.");
+		assertEquals(1, tree.size(), "Size should now be 1.");
+		assertEquals(tree, tree.add(1), "Add should return tree for convenience.");
+		assertFalse(tree.isEmpty(), "Tree should now be non-empty.");
+		assertEquals(2, tree.size(), "Size should now be 2.");
+		assertEquals(tree, tree.add(1), "Add should return tree for convenience.");
+		assertFalse(tree.isEmpty(), "Tree should now be non-empty.");
+		assertEquals(3, tree.size(), "Size should now be 3.");
+		assertEquals(tree, tree.add(2), "Add should return tree for convenience.");
+		assertFalse(tree.isEmpty(), "Tree should now be non-empty.");
+		assertEquals(4, tree.size(), "Size should now be 4.");
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testSimpleAddAndContains() {
-		assertFalse("Tree should not contain anything.", tree.contains(1));
-		assertEquals("Add should return tree for convenience.", tree, tree.add(1));
-		assertTrue("After add, contains should return true.", tree.contains(1));
+		assertFalse(tree.contains(1), "Tree should not contain anything.");
+		assertEquals(tree, tree.add(1), "Add should return tree for convenience.");
+		assertTrue(tree.contains(1), "After add, contains should return true.");
 		
-		assertFalse("Tree should not contain 5.", tree.contains(5));
-		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
-		assertTrue("After add, contains should return true.", tree.contains(5));
-		
+		assertFalse(tree.contains(5), "Tree should not contain 5.");
+		assertEquals(tree, tree.add(5), "Add should return tree for convenience.");
+		assertTrue(tree.contains(5), "After add, contains should return true.");
 	}
 	
-	@Test (timeout = 1000)
+	@Test
+	@Timeout(1)
 	public void testRandomAddContains() {
 		Random r = new Random(42);
-		Set<Integer> valuesAdded = new HashSet<Integer>();
+		Set<Integer> valuesAdded = new HashSet<>();
 		for(int i = 0; i < SPEED_TEST; i++){
-			assertEquals("Tree should have i elements in it.", i, tree.size());
+			assertEquals(i, tree.size(), "Tree should have i elements in it.");
 			int next = r.nextInt();
 			
 			if(!valuesAdded.contains(next)){
-				assertFalse("Tree should not contain this value yet.", tree.contains(next));
+				assertFalse(tree.contains(next), "Tree should not contain this value yet.");
 				valuesAdded.add(next);
 			}
 			
-			assertEquals("Add should return tree for convenience.", tree, tree.add(next));
-			assertTrue("After add, contains should return true.", tree.contains(next));
+			assertEquals(tree, tree.add(next), "Add should return tree for convenience.");
+			assertTrue(tree.contains(next), "After add, contains should return true.");
 		}
 	}
 	
-	@Test (timeout = 100, expected = NullPointerException.class)
+	@Test
 	public void testAddNullPointer(){
-		tree.add(null);
+		assertThrows(NullPointerException.class,
+				() -> tree.add(null));
 	}
 	
-	@Test (timeout = 100, expected = NullPointerException.class)
+	@Test
 	public void testContainsNullPointer(){
-		tree.contains(null);
+		assertThrows(NullPointerException.class,
+				() -> tree.contains(null));
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testSimpleAddRemoveAndSize() {
-		assertEquals("Add should return tree for convenience.", tree, tree.add(1));
-		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
-		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
-		assertEquals("Add should return tree for convenience.", tree, tree.add(5));
+		assertEquals(tree, tree.add(1), "Add should return tree for convenience.");
+		assertEquals(tree, tree.add(5), "Add should return tree for convenience.");
+		assertEquals(tree, tree.add(5), "Add should return tree for convenience.");
+		assertEquals(tree, tree.add(5), "Add should return tree for convenience.");
 		
 		assertEquals(4, tree.size());
 		assertTrue(tree.remove(1));
@@ -106,39 +114,40 @@ public class BinarySearchTreeTest {
 		assertTrue(tree.isEmpty());
 	}
 	
-	@Test (timeout = 1000)
+	@Test
+	@Timeout(1)
 	public void testRandomAddRemoveAndSize() {
 		Random r = new Random(42);
-		List<Integer> valuesAdded = new LinkedList<Integer>();
+		List<Integer> valuesAdded = new LinkedList<>();
 		
 		for(int i = 0; i < SPEED_TEST; i++){
-			assertEquals("Tree should have i elements in it.", i, tree.size());
+			assertEquals(i, tree.size(), "Tree should have i elements in it.");
 			int next = r.nextInt(SPEED_TEST);
 			valuesAdded.add(next);
-			assertEquals("Add should return tree for convenience.", tree, tree.add(next));
-			assertTrue("After add, contains should return true.", tree.contains(next));
+			assertEquals(tree, tree.add(next), "Add should return tree for convenience.");
+			assertTrue(tree.contains(next), "After add, contains should return true.");
 		}
 		
 		assertEquals(SPEED_TEST, tree.size());
 		for(Integer i : valuesAdded){
-			assertTrue("Could not remove previously added node.", tree.remove(i));
-
+			assertTrue(tree.remove(i), "Could not remove previously added node.");
 		}
 		assertEquals(0, tree.size());
 		assertTrue(tree.isEmpty());		
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testSimpleGetMinAndGetMax(){
 		tree.add(4).add(2).add(1).add(3).add(5).add(6).add(7);
-		assertEquals(new Integer(1), tree.getMinimum());
-		assertEquals(new Integer(7), tree.getMaximum());
+		assertEquals(Integer.valueOf(1), tree.getMinimum());
+		assertEquals(Integer.valueOf(7), tree.getMaximum());
 	}
 	
-	@Test (timeout = 1000)
+	@Test
+	@Timeout(1)
 	public void testRandomGetMinAndGetMax() {
 		Random r = new Random(42);
-		LinkedList<Integer> values = new LinkedList<Integer>();
+		LinkedList<Integer> values = new LinkedList<>();
 		int currentMin = Integer.MAX_VALUE;
 		int currentMax = Integer.MIN_VALUE;
 		for(int i = 0; i < SPEED_TEST; i++){
@@ -149,25 +158,26 @@ public class BinarySearchTreeTest {
 			tree.add(next);
 		}
 		
-		assertEquals(new Integer(currentMin), tree.getMinimum());
-		assertEquals(new Integer(currentMax), tree.getMaximum());
-		
+		assertEquals(Integer.valueOf(currentMin), tree.getMinimum());
+		assertEquals(Integer.valueOf(currentMax), tree.getMaximum());
 	}
 	
-	@Test (timeout = 100, expected = IllegalStateException.class)
+	@Test
 	public void testIllegalStateGetMin(){
-		tree.getMinimum();
+		assertThrows(IllegalStateException.class,
+				() -> tree.getMinimum());
 	}
 	
-	@Test (timeout = 100, expected = IllegalStateException.class)
+	@Test
 	public void testIllegalStateGetMax(){
-		tree.getMaximum();
+		assertThrows(IllegalStateException.class,
+				() -> tree.getMaximum());
 	}
 	
-	@Test (timeout = 100)
+	@Test
 	public void testSimpleIterable(){
 		tree.add(4).add(2).add(1).add(3).add(5).add(6).add(7);
-		LinkedList<Integer> values = new LinkedList<Integer>();
+		LinkedList<Integer> values = new LinkedList<>();
 		values.add(1);
 		values.add(2);
 		values.add(3);
@@ -179,13 +189,12 @@ public class BinarySearchTreeTest {
 			Integer toCheck = values.remove();
 			assertEquals(toCheck, i);
 		}
-		
 	}
 	
-	@Test (timeout = 1000)
+	@Test
 	public void testRandomIterator() {
 		Random r = new Random(42);
-		LinkedList<Integer> values = new LinkedList<Integer>();
+		LinkedList<Integer> values = new LinkedList<>();
 		
 		for(int i = 0; i < SPEED_TEST; i++){
 			int next = r.nextInt();
@@ -199,7 +208,5 @@ public class BinarySearchTreeTest {
 			Integer toCheck = values.remove();
 			assertEquals(toCheck, i);
 		}
-				
 	}
-	
 }

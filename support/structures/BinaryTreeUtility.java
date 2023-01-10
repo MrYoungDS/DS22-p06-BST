@@ -7,7 +7,6 @@ import java.util.Iterator;
  * {@link BinaryTreeNode}s
  * 
  * @author jcollard jddevaug
- * 
  */
 public interface BinaryTreeUtility {
 
@@ -36,9 +35,8 @@ public interface BinaryTreeUtility {
 	 *         {@link BinaryTreeNode} in pre-order.
 	 * @throws NullPointerException
 	 *             if root is {@code null}
-	 * @see http://en.wikipedia.org/wiki/Tree_traversal#Pre-order
 	 */
-	public <T> Iterator<T> getPreOrderIterator(BinaryTreeNode<T> root);
+	<T> Iterator<T> getPreOrderIterator(BinaryTreeNode<T> root);
 
 	/**
 	 * <p>
@@ -65,9 +63,8 @@ public interface BinaryTreeUtility {
 	 *         {@link BinaryTreeNode} in in-order.
 	 * @throws NullPointerException
 	 *             if root is {@code null}
-	 * @see http://en.wikipedia.org/wiki/Tree_traversal#In-order_.28symmetric.29
 	 */
-	public <T> Iterator<T> getInOrderIterator(BinaryTreeNode<T> root);
+	<T> Iterator<T> getInOrderIterator(BinaryTreeNode<T> root);
 
 	/**
 	 * <p>
@@ -94,9 +91,8 @@ public interface BinaryTreeUtility {
 	 *         {@link BinaryTreeNode} in post-order.
 	 * @throws NullPointerException
 	 *             if root is {@code null}
-	 * @see http://en.wikipedia.org/wiki/Tree_traversal#Post-order
 	 */
-	public <T> Iterator<T> getPostOrderIterator(BinaryTreeNode<T> root);
+	<T> Iterator<T> getPostOrderIterator(BinaryTreeNode<T> root);
 
 	/**
 	 * <p>
@@ -129,17 +125,17 @@ public interface BinaryTreeUtility {
 	 *             if root is {@code null}
 	 * @return the maximum distance that can be traveled from {@code root}
 	 */
-	public <T> int getDepth(BinaryTreeNode<T> root);
+	<T> int getDepth(BinaryTreeNode<T> root);
 
 	/**
 	 * A binary tree is said to be balanced if for each node in the tree the
-	 * depth of each nodes children differs by at most some tolerance. Given a
+	 * depth of each node's children differs by at most some tolerance. Given a
 	 * {@link BinaryTreeNode} and a tolerance, returns {@code true} if
 	 * {@code root} is balanced and {@code false} otherwise.
 	 * 
 	 * @param root
 	 *            the root {@link BinaryTreeNode} to examine
-	 * @param int the maximum tolerance to decide if the tree is balanced
+	 * @param tolerance the maximum tolerance to decide if the tree is balanced
 	 * @return {@code true} if {@code root} is balanced and {@code false}
 	 *         otherwise.
 	 * @throws NullPointerException
@@ -147,7 +143,7 @@ public interface BinaryTreeUtility {
 	 * @throws IllegalArgumentException
 	 *             if {@code tolerance} is less than 0
 	 */
-	public <T> boolean isBalanced(BinaryTreeNode<T> root, int tolerance);
+	<T> boolean isBalanced(BinaryTreeNode<T> root, int tolerance);
 
 	/**
 	 * <p>
@@ -171,7 +167,6 @@ public interface BinaryTreeUtility {
 	 * @throws NullPointerException
 	 *             if {@code root} is {@code null}
 	 */
-	public <T extends Comparable<? super T>> boolean isBST(
+	<T extends Comparable<? super T>> boolean isBST(
 			BinaryTreeNode<T> root);
-
 }
