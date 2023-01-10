@@ -72,4 +72,4 @@ If you choose to implement an iterator method that returns in O(1) time, you wil
 
 
 ## Part Five: Commit Project and Submit Pull Request
-When you have finished your solution and are ready to submit, make your final commit and push everything up to Github.
+When you have finished your solution and are ready to submit, make your final commit and push everything up to GitHub.
