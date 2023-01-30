@@ -6,9 +6,12 @@ import java.util.LinkedList;
 
 public class PreOrderIterator<T> implements Iterator<T> {
 	
-	private final Deque<BinaryTreeNode<T>> stack; 
+	private final Deque<BinaryTreeNode<T>> stack;
 	
 	public PreOrderIterator(BinaryTreeNode<T> root){
+		if (root == null) {
+			throw new NullPointerException();
+		}
 		stack = new LinkedList<>();
 		stack.push(root);
 	}
